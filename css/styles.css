@@ -1,0 +1,137 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=K2D&display=swap');
+/* Reset CSS */
+:root {
+    font-size: 18px;
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Layout */
+body {
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: auto;
+}
+
+/* Make borders visible for dev purpose
+.container section, div {
+    border: 1px solid gray;
+}
+*/
+
+.container > section {
+    display: flex;
+    height: 90vmin;
+}
+
+h1 {
+    font-size: 24vmin;
+    font-family: 'Fugaz One', sans-serif;
+    line-height: 21vmin;
+    font-family: 'Fugaz One', sans-serif;
+    writing-mode: vertical-lr;
+}
+
+.board-container {
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    width: 45vmin;
+    height: 90vmin;
+    border: 2px solid gray;
+}
+
+.board > div {
+    border: 0.5px dotted lightgray;
+}
+
+.o {
+    background-color: aqua;
+    border: 2px black;
+}
+
+.j {
+    background-color: yellow;
+    border: 2px black;
+}
+
+.l {
+    background-color: red;
+    border: 2px black;
+}
+
+.s {
+    background-color: greenyellow;
+    border: 2px black;
+}
+
+.i {
+    background-color: blue;
+    border: 2px black;
+}
+
+.z {
+    background-color: lightgreen;
+    border: 2px black;
+}
+
+.t {
+    background-color: pink;
+    border: 2px black;
+}
+
+.info-area {
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 6vmin;
+    gap: 8vmin 0;
+    font-family: 'K2D', sans-serif;
+    font-size: 2.4vmin;
+    height: 90vmin;
+}
+
+.scoreboard {
+    padding: 2vmin 6vmin 2vmin 2vmin;
+    line-height: 4.5vmin;
+    border: 2px solid gray;
+}
+
+.next-piece-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vmin;
+    padding: 1vmin 2vmin 2vmin 2vmin;
+    border: 2px solid gray;
+}
+
+.next-piece-box > p {
+    text-align: center;
+}
+
+.next-piece-grid {
+    width: 18vmin;
+    height: 18vmin;
+    line-height: 0;
+}
+
