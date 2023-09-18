@@ -57,45 +57,48 @@ h1 {
     width: 45vmin;
     height: 90vmin;
     border: 2px solid gray;
+    display: flex;
+    flex-flow: row wrap;
+    font-size: x-small;
 }
 
 .board > div {
     border: 0.5px dotted lightgray;
 }
 
-.o {
+.board .o {
     background-color: aqua;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.j {
+.board .j {
     background-color: yellow;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.l {
+.board .l {
     background-color: red;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.s {
+.board .s {
     background-color: greenyellow;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.i {
+.board .i {
     background-color: blue;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.z {
+.board .z {
     background-color: lightgreen;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
-.t {
+.board .t {
     background-color: pink;
-    border: 2px black;
+    border: 0.5px solid black;
 }
 
 .info-area {
