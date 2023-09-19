@@ -34,10 +34,10 @@ body {
 }
 */
 
-.container > section {
+/* .container > section {
     display: flex;
     height: 90vmin;
-}
+} */
 
 h1 {
     font-size: 24vmin;
@@ -48,6 +48,7 @@ h1 {
 }
 
 .board-container {
+    display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
@@ -102,6 +103,7 @@ h1 {
 }
 
 .info-area {
+    display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;

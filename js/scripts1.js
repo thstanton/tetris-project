@@ -1,6 +1,5 @@
 // ! Constants
 // const pieceClasses = [Tpiece, Spiece, Zpiece, Lpiece, Jpiece, Opiece, Ipiece]
-const moveSound = new Audio('./assets/mixkit-game-ball-tap-2073.wav')
 
 // ! Variables & Elements
 // ? Elements
@@ -121,15 +120,15 @@ class Ipiece {
 }
 
 // Active piece
-let activePiece = addPiece(Ipiece)
+let activePiece = addPiece(Tpiece)
 
 // ! Functions
 // ? Create board cells
 function buildBoard() {
     for (let i = 0; i < cellCount; i++) {
         const cell = document.createElement('div')
-        // // Add index to div element
-        // cell.innerText = i
+        // Add index to div element
+        cell.innerText = i
         // Add index as an attribute
         cell.dataset.index = i
         // Add height & width to each grid cell dynamically
@@ -197,29 +196,42 @@ function handleMovement(event) {
     removePiece()
 
     if (key === down) translate(activePiece.relativePosArr[0] += 10)
-    if (key === left) translate(activePiece.relativePosArr[0] -= 1)
-    if (key === right) translate(activePiece.relativePosArr[0] += 1)
+    // if (key === left) translate(activePiece.relativePosArr[0] -= 1)
+    // if (key === right) translate(activePiece.relativePosArr[0] += 1)
+    if (key === left && !(detectCollisionL())) translate(activePiece.relativePosArr[0] -= 1)
+    if (key === right && !(detectCollisionR())) translate(activePiece.relativePosArr[0] += 1)
     if (key === up) translate(activePiece.relativePosArr[0] -= 10)
     if (key === z) rotate('antiClockwise')
     if (key === x) rotate('clockwise')
 
-    moveSound.play()
     // Render piece in new position
     renderPiece()
 }
 
+// ? Test whether movement is possible
+
+
+// ? Test whether piece will lock at 'bottom'
+
+
+// ? Lock piece and generate a new one
+
+
+
 // Detect collision and return true/false
-function detectCollision() {
-    function leftSide() {
-
-    }
-    function rightSide() {
-
-    }
-    function bottom() {
-
-    }
+const detectCollisionL = () => {
+    const leftCheck = activePiece.relativePosArr.map((relativePos) => relativePos % width)
+    return leftCheck.includes(0)
 }
+
+function detectCollisionR() {
+    const rightCheck = activePiece.relativePosArr.map((relativePos) => relativePos % width)
+    return rightCheck.includes(9)
+}
+
+// function detectCollisionBottom() {
+
+// }
 
 // // ? Select random piece class
 // function randomClass() { 
