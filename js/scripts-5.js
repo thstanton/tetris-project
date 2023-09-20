@@ -27,10 +27,10 @@ class Tpiece {
         this.cssClass = 't'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, 1, width, -1],
-            [0, width, -1, -width],
-            [0, -1, -width, 1],
-            [0, -width, 1, width]
+            [0, 1, 10, -1],
+            [0, 10, -1, -10],
+            [0, -1, -10, 1],
+            [0, -10, 1, 10]
         ]
     }
 }
@@ -42,10 +42,10 @@ class Spiece {
         this.cssClass = 's'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width - 1), -1],
-            [0, 1, (width + 1), -width],
-            [0, width, (width - 1), 1],
-            [0, -1, -(width + 1), width]
+            [0, -10, -9, -1],
+            [0, 1, 11, -10],
+            [0, 10, 9, 1],
+            [0, -1, -11, 10]
         ]
     }
 }
@@ -57,10 +57,10 @@ class Zpiece {
         this.cssClass = 'z'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width + 1), 1],
-            [0, 1, -(width - 1), width],
-            [0, width, -1, (width + 1)],
-            [0, -1, -width, (width -1)]
+            [0, -10, -11, 1],
+            [0, 1, -9, 10],
+            [0, 10, -1, 11],
+            [0, -1, -10, 9]
         ]
     }
 }
@@ -72,10 +72,10 @@ class Lpiece {
         this.cssClass = 'l'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, (width + 1), width],
-            [0, 1, (width - 1), -1],
-            [0, width, -(width + 1), -width],
-            [0, -1, -(width - 1), 1]
+            [0, -10, 11, 10],
+            [0, 1, 9, -1],
+            [0, 10, -11, -10],
+            [0, -1, -9, 1]
         ]
     }
 }
@@ -87,10 +87,10 @@ class Jpiece {
         this.cssClass = 'j'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, width, (width - 1)],
-            [0, 1, -1, -(width + 1)],
-            [0, width, -width, -(width - 1)],
-            [0, -1, 1, (width + 1)]
+            [0, -10, 10, 9],
+            [0, 1, -1, -11],
+            [0, 10, -10, -9],
+            [0, -1, 1, 11]
         ]
     }
 }
@@ -102,10 +102,10 @@ class Opiece {
         this.cssClass = 'o'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1]
+            [0, -10, -9, 1],
+            [0, -10, -9, 1],
+            [0, -10, -9, 1],
+            [0, -10, -9, 1]
         ]
     }
 }
@@ -118,9 +118,9 @@ class Ipiece {
         this.rotationIdx = 0
         this.rotationOffsets = [
             [0, 1, -2, -1],
-            [0, width, -(width * 2), -width],
+            [0, 10, -20, -10],
             [0, -1, 2, 1],
-            [0, -width, (width * 2), width]
+            [0, -10, 20, 10]
         ]
     }
 }

@@ -67,6 +67,15 @@ h1 {
     border: 0.5px dotted lightgray;
 }
 
+.board .gameover {
+    background-color: grey;
+    border: 0.5px solid black;
+}
+
+.board .ghost {
+    opacity: 0.2;
+}
+
 .board .o {
     background-color: aqua;
     border: 0.5px solid black;
