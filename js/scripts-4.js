@@ -1,5 +1,6 @@
 // ! Variables & Elements
-// ? DOM Elements
+// ? Elements
+// Create board
 const board = document.querySelector('.board')
 const scoreEl = document.querySelector('.score')
 const highScoreEl = document.querySelector('.high-score')
@@ -8,8 +9,7 @@ const levelEl = document.querySelector('.level')
 // ? Variables
 // Board config
 const width = 10
-const height = 24
-const hiddenRows = 4
+const height = 20
 const cellCount = width * height
 let cells = []
 
@@ -121,8 +121,8 @@ class Ipiece {
 
 const pieceClasses = [Tpiece, Spiece, Zpiece, Lpiece, Jpiece, Opiece, Ipiece]
 
-// Game status - inactive, active or paused
-let gameStatus = 'inactive'
+// First active piece
+let activePiece = addPiece(randomClass())
 
 // Game speed
 let speed = 800
@@ -138,21 +138,17 @@ const points = [singleScore, singleScore * 3, singleScore * 5, singleScore * 8]
 let level = 1
 const levelThresholds = [500, 1000, 5000, 10000, 16000, 20000]
 
-// First active piece
-let activePiece = addPiece(randomClass())
-let fallingPiece
-
 // ! Functions
 // ? Create board cells
 function buildBoard() {
     for (let i = 0; i < cellCount; i++) {
         const cell = document.createElement('div')
         // Add index to div element
-        cell.innerText = i
+        // cell.innerText = i
         // Add index as an attribute
         cell.dataset.index = i
         // Add height & width to each grid cell dynamically
-        cell.style.height = `${100 / (height - hiddenRows)}%`
+        cell.style.height = `${100 / height}%`
         cell.style.width = `${100 / width}%`
 
         // Add cell to grid
@@ -160,13 +156,29 @@ function buildBoard() {
         // Add newly created div cell to cells array
         cells.push(cell)
     }
-    const hiddenCells = cells.filter((cell, idx) => idx < hiddenRows * width)
-    hiddenCells.map((cell) => cell.style.display = 'none')
 }
 
 // ? Create new piece
 function addPiece(pieceClass) {
     return new pieceClass()
+}
+
+// ? Render piece
+function renderPiece() {
+    //
+    activePiece.actualPosArr = activePiece.relativePosArr.map((relativePos) => cells[relativePos])
+    // Add the relevant CSS class to each cell
+    for (element of activePiece.actualPosArr) {
+        element.classList.add(activePiece.cssClass, 'active')
+    }
+}
+
+// ? Remove piece
+function removePiece() {
+    // Remove the relevant CSS class from each cell
+    for (cell of activePiece.actualPosArr) {
+        cell.classList.remove(activePiece.cssClass)    
+    }
 }
 
 // ? Translate piece
@@ -182,6 +194,32 @@ function rotate(direction) {
     if (direction === 'clockwise') activePiece.rotationIdx !== 3 ? activePiece.rotationIdx++ : activePiece.rotationIdx = 0
     if (direction === 'anticlockwise') activePiece.rotationIdx !== 0 ? activePiece.rotationIdx-- : activePiece.rotationIdx = 3
     translate(activePiece.relativePosArr[0])
+}
+
+// ? Handle movement
+function handleMovement(event) {
+    const key = event.keyCode
+
+    const up = 38
+    const down = 40
+    const left = 37
+    const right = 39
+    const space = 32
+    const z = 90
+    const x = 88
+
+    // Remove piece from current position, before moving to new position
+    removePiece()
+
+    if (key === down) moveDown()
+    if (key === left) moveLeft()
+    if (key === right) moveRight()
+    if (key === up) translate(activePiece.relativePosArr[0] -= 10)
+    if (key === z) rotateClockwise()
+    if (key === x) rotateAnticlockwise()
+
+    // Render piece in new position
+    renderPiece()
 }
 
 // ? Move left
@@ -252,7 +290,7 @@ function testTranslation(direction, anchorPos, rotationIdx) {
         return modulusArray.includes(0)
 
     } else if (direction === 'down') {
-        return potentialPosition.some((pos) => pos > cellCount - 1)
+        return potentialPosition.some((pos) => pos > 199)
     }
 }
 
@@ -276,15 +314,9 @@ function lockPiece() {
         cell.classList.add('locked')
         renderPiece()
     }
-    if (gameOverCheck()) gameOver()
     increaseScore(completedLineCheck().length)
     removeComplete(completedLineCheck())
     activePiece = addPiece(randomClass())
-}
-
-// ? Check whether game is over
-function gameOverCheck() {
-    return !activePiece.relativePosArr.every((pos) => pos > cellCount - (cellCount - hiddenRows * width))
 }
 
 // ? Check for completed lines
@@ -344,14 +376,14 @@ function removeComplete(rows) {
 // ? Increase Score
 function increaseScore(numRows) {
     if (numRows > 0) score += points[numRows - 1]
+    scoreEl.innerHTML = score
     if (score >= levelThresholds[level - 1]) increaseLevel()
-    renderScoreboard()
 }
 
 function increaseLevel() {
     level++
     speed -= speedDecrement
-    renderScoreboard()
+    levelEl.innerHTML = level
 }
 
 // ? Select random piece class
@@ -366,116 +398,11 @@ function fall() {
     renderPiece()
 }
 
-// ! Init function
-function init() {
-    buildBoard()
-    renderScoreboard()
-}
-
-// ! Game state functions
-// ? Game Start
-function gameStart() {
-    gameStatus = 'active'
-    activePiece = addPiece(randomClass())
-    renderPiece()
-    fallingPiece = setInterval(fall, speed)
-    level = 1
-    score = 0
-    renderScoreboard()
-    resetBoard()
-}
-
-// ? Game Over
-function gameOver() {
-    gameStatus = 'inactive'
-    clearInterval(fallingPiece)
-    console.log("Game Over");
-}
-
-// ? Pause
-function pauseGame() {
-    gameStatus = 'paused'
-    clearInterval(fallingPiece)
-    console.log("Pause");
-}
-
-// ? Resume
-function resumeGame() {
-    gameStatus = 'active'
-    // Render first piece
-    renderPiece()
-    fallingPiece = setInterval(fall, speed)
-}
-
-// ! Render functions
-// ? Render piece
-function renderPiece() {
-    // Target cells with indices that match relativePosArr
-    activePiece.actualPosArr = activePiece.relativePosArr.map((relativePos) => cells[relativePos])
-    // Add the relevant CSS class to each cell
-    for (element of activePiece.actualPosArr) {
-        element.classList.add(activePiece.cssClass, 'active')
-    }
-}
-
-// ? Remove piece
-function removePiece() {
-    // Remove the relevant CSS class from each cell
-    for (cell of activePiece.actualPosArr) {
-        cell.classList.remove(activePiece.cssClass)    
-    }
-}
-
-function renderScoreboard() {
-    scoreEl.innerHTML = score
-    levelEl.innerHTML = level
-}
-
-function resetBoard() {
-    cells.map((cell) => cell.className = '')
-}
-
-// ! Controls
-function controls(event) {
-    const key = event.keyCode
-
-    const up = 38
-    const down = 40
-    const left = 37
-    const right = 39
-    const space = 32
-    const z = 90
-    const x = 88
-    const p = 80
-
-    if (gameStatus === 'active') {
-        // Remove piece from current position, before moving to new position
-        removePiece()
-
-        if (key === down) moveDown()
-        if (key === left) moveLeft()
-        if (key === right) moveRight()
-        if (key === up) translate(activePiece.relativePosArr[0] -= 10)
-        if (key === z) rotateClockwise()
-        if (key === x) rotateAnticlockwise()
-        if (key === p) pauseGame()
-
-        // Render piece in new position
-        renderPiece()
-    } 
-    if (gameStatus === 'inactive') {
-        if (key === space) gameStart()
-    }
-    if (gameStatus === 'paused') {
-        if (key === space) resumeGame()
-    }
-}
-
 // ! Events
-document.addEventListener('keydown', controls)
+document.addEventListener('keydown', handleMovement)
 
 // ! Page load
-init()
-
-
+buildBoard()
+renderPiece()
+setInterval(fall, speed)
 
