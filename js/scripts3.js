@@ -125,18 +125,10 @@ const pieceClasses = [Tpiece, Spiece, Zpiece, Lpiece, Jpiece, Opiece, Ipiece]
 let activePiece = addPiece(randomClass())
 
 // Game speed
-let speed = 800
-const speedDecrement = 50
-
-// Scoring
+let speed = 1000
+let level = 1
 let score = 0
 let highScore = 10000
-const singleScore = 100
-const points = [singleScore, singleScore * 3, singleScore * 5, singleScore * 8]
-
-// Levels
-let level = 1
-const levelThresholds = [500, 1000, 5000, 10000, 16000, 20000]
 
 // ! Functions
 // ? Create board cells
@@ -144,7 +136,7 @@ function buildBoard() {
     for (let i = 0; i < cellCount; i++) {
         const cell = document.createElement('div')
         // Add index to div element
-        // cell.innerText = i
+        cell.innerText = i
         // Add index as an attribute
         cell.dataset.index = i
         // Add height & width to each grid cell dynamically
@@ -314,7 +306,6 @@ function lockPiece() {
         cell.classList.add('locked')
         renderPiece()
     }
-    increaseScore(completedLineCheck().length)
     removeComplete(completedLineCheck())
     activePiece = addPiece(randomClass())
 }
@@ -373,18 +364,8 @@ function removeComplete(rows) {
     }
 } 
 
-// ? Increase Score
-function increaseScore(numRows) {
-    if (numRows > 0) score += points[numRows - 1]
-    scoreEl.innerHTML = score
-    if (score >= levelThresholds[level - 1]) increaseLevel()
-}
+// ? Score
 
-function increaseLevel() {
-    level++
-    speed -= speedDecrement
-    levelEl.innerHTML = level
-}
 
 // ? Select random piece class
 function randomClass() { 
@@ -404,5 +385,5 @@ document.addEventListener('keydown', handleMovement)
 // ! Page load
 buildBoard()
 renderPiece()
-setInterval(fall, speed)
+setInterval(fall, 500)
 
