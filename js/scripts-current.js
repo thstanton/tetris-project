@@ -18,6 +18,7 @@ let cells = []
 const npgWidth = 4
 const npgHeight = 4
 const npgCellCount = npgWidth * npgHeight
+let npgCells = []
 
 // Piece classes
 class Tpiece {
@@ -32,6 +33,7 @@ class Tpiece {
             [0, -1, -width, 1],
             [0, -width, 1, width]
         ]
+        this.nextPieceAnchor = 5
     }
 }
 
@@ -47,6 +49,7 @@ class Spiece {
             [0, width, (width - 1), 1],
             [0, -1, -(width + 1), width]
         ]
+        this.nextPieceAnchor = 10
     }
 }
 
@@ -62,6 +65,7 @@ class Zpiece {
             [0, width, -1, (width + 1)],
             [0, -1, -width, (width -1)]
         ]
+        this.nextPieceAnchor = 9
     }
 }
 
@@ -77,6 +81,7 @@ class Lpiece {
             [0, width, -(width + 1), -width],
             [0, -1, -(width - 1), 1]
         ]
+        this.nextPieceAnchor = 10
     }
 }
 
@@ -92,6 +97,7 @@ class Jpiece {
             [0, width, -width, -(width - 1)],
             [0, -1, 1, (width + 1)]
         ]
+        this.nextPieceAnchor = 10
     }
 }
 
@@ -107,6 +113,7 @@ class Opiece {
             [0, -width, -(width - 1), 1],
             [0, -width, -(width - 1), 1]
         ]
+        this.nextPieceAnchor = 9
     }
 }
 
@@ -122,6 +129,7 @@ class Ipiece {
             [0, -1, 2, 1],
             [0, -width, (width * 2), width]
         ]
+        this.nextPieceAnchor = 8
     }
 }
 
@@ -145,7 +153,8 @@ let level = 1
 const levelThresholds = [500, 1000, 5000, 10000, 16000, 20000]
 
 // First active piece
-let activePiece = addPiece(randomClass())
+let activePiece
+let nextPiece = addPiece(randomClass())
 let fallingPiece
 
 // ! Functions
@@ -172,8 +181,14 @@ function buildBoard() {
 
 // ? Create next piece cells
 function nextPieceGrid() {
-    for (let i = 0; i < cellCount; i++) {
+    for (let i = 0; i < npgCellCount; i++) {
         const cell = document.createElement('div')
+        cell.dataset.index = i
+        cell.innerText = i
+        cell.style.height = `${100 / npgHeight}%`
+        cell.style.width = `${100 / npgWidth}%`
+        npGridEl.appendChild(cell)
+        npgCells.push(cell)
     }
 }
 
@@ -313,7 +328,9 @@ function lockPiece() {
     if (gameOverCheck()) gameOver()
     increaseScore(completedLineCheck().length)
     removeComplete(completedLineCheck())
-    activePiece = addPiece(randomClass())
+    activePiece = nextPiece
+    nextPiece = addPiece(randomClass())
+    renderNextPiece()
 }
 
 // ? Check whether game is over
@@ -403,6 +420,7 @@ function fall() {
 // ! Init function
 function init() {
     buildBoard()
+    nextPieceGrid()
     renderScoreboard()
 }
 
@@ -410,13 +428,14 @@ function init() {
 // ? Game Start
 function gameStart() {
     gameStatus = 'active'
+    resetBoard()
     activePiece = addPiece(randomClass())
     renderPiece()
     fallingPiece = setInterval(fall, speed)
     level = 1
     score = 0
     renderScoreboard()
-    resetBoard()
+    renderNextPiece()
 }
 
 // ? Game Over
@@ -476,6 +495,20 @@ function removeGhost() {
     let ghostCells = ghostPosition().map((pos) => cells[pos])
     for (cell of ghostCells) {
         cell.classList.remove(activePiece.cssClass, 'ghost')
+    }
+}
+
+// ? Render next piece
+function renderNextPiece() {
+    for (cell of npgCells) {
+        cell.className = ''
+    }
+    let nextPieceOffsets = nextPiece.rotationOffsets[0]
+    console.log(nextPieceOffsets);
+    let nextPieceArr = nextPieceOffsets.map((pos) => pos + nextPiece.nextPieceAnchor)
+    let nextPieceCells = nextPieceArr.map((pos) => npgCells[pos])
+    for (cell of nextPieceCells) {
+        cell.classList.add(nextPiece.cssClass)
     }
 }
 

@@ -67,46 +67,46 @@ h1 {
     border: 0.5px dotted lightgray;
 }
 
-.board .gameover {
+div .gameover {
     background-color: grey;
     border: 0.5px solid black;
 }
 
-.board .ghost {
+div .ghost {
     opacity: 0.2;
 }
 
-.board .o {
+div .o {
     background-color: aqua;
     border: 0.5px solid black;
 }
 
-.board .j {
+div .j {
     background-color: yellow;
     border: 0.5px solid black;
 }
 
-.board .l {
+div .l {
     background-color: red;
     border: 0.5px solid black;
 }
 
-.board .s {
+div .s {
     background-color: greenyellow;
     border: 0.5px solid black;
 }
 
-.board .i {
+div .i {
     background-color: blue;
     border: 0.5px solid black;
 }
 
-.board .z {
+div .z {
     background-color: lightgreen;
     border: 0.5px solid black;
 }
 
-.board .t {
+div .t {
     background-color: pink;
     border: 0.5px solid black;
 }
@@ -144,6 +144,9 @@ h1 {
 }
 
 .next-piece-grid {
+    display: flex;
+    flex-flow: row wrap;
+    font-size: x-small;
     width: 18vmin;
     height: 18vmin;
     line-height: 0;
