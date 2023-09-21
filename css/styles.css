@@ -71,8 +71,9 @@ h1 {
 }
 
 div .gameover {
-    background-color: grey;
-    border: 0.5px solid black;
+    background-image: url(../assets/grey.png);
+    background-size: cover;
+    border: none;
 }
 
 div .ghost {
@@ -80,9 +81,8 @@ div .ghost {
 }
 
 div .o {
-    background-image: url(../assets/blocks.png);
-    background-size: auto 100%;
-    background-position: 13.5% 0;
+    background-image: url(../assets/yellow.png);
+    background-size: cover;
     border: none;
     /* background-col
     /* background-color: aqua;
@@ -90,35 +90,39 @@ div .o {
 }
 
 div .j {
-    background-color: yellow;
-    border: 0.5px solid black;
+    background-image: url(../assets/blue.png);
+    background-size: cover;
+    border: none;
 }
 
 div .l {
-    background-color: red;
-    border: 0.5px solid black;
+    background-image: url(../assets/orange.png);
+    background-size: cover;
+    border: none;
 }
 
 div .s {
-    background-color: greenyellow;
-    border: 0.5px solid black;
+    background-image: url(../assets/green.png);
+    background-size: cover;
+    border: none;
 }
 
 div .i {
-    background-image: url(../assets/blocks.png);
-    background-size: auto 100%;
+    background-image: url(../assets/cyan.png);
+    background-size: cover;
     border: none;
     /* background-color: blue;
     border: 0.5px solid black; */
 }
 
 div .z {
-    background-color: lightgreen;
-    border: 0.5px solid black;
+    background-image: url(../assets/red.png);
+    background-size: cover;
+    border: none;
 }
 
 div .t {
-    background-image: url(../assets/blue.png);
+    background-image: url(../assets/purple.png);
     background-size: cover;
     border: none;
     /* background-color: pink; */
