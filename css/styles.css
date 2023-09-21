@@ -105,7 +105,7 @@ div .s {
 }
 
 div .i {
-    background-image: url(../tetris-project/assets/blocks.png);
+    background-image: url(../assets/blocks.png);
     background-size: auto 100%;
     border: none;
     /* background-color: blue;
@@ -118,7 +118,7 @@ div .z {
 }
 
 div .t {
-    background-image: url(/Users/timstanton/code/tetris-project/assets/blue.png);
+    background-image: url(../assets/blue.png);
     background-size: cover;
     border: none;
     /* background-color: pink; */
