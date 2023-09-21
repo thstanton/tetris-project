@@ -6,6 +6,16 @@ const highScoreEl = document.querySelector('.high-score')
 const levelEl = document.querySelector('.level')
 const npGridEl = document.querySelector('.next-piece-grid')
 const messagingEl = document.querySelector('.messaging-area')
+const containerEl = document.getElementById('container')
+
+// ? Sounds
+const moveSound = document.getElementById('move')
+const bumpSound = document.getElementById('bump')
+const gameOverSound = document.getElementById('game-over')
+const levelUpSound = document.getElementById('level-up')
+const lineSound = document.getElementById('line')
+const lockSound = document.getElementById('lock')
+const rotateSound = document.getElementById('rotate')
 
 // ? Variables
 // Board config
@@ -158,7 +168,7 @@ const points = [singleScore, singleScore * 3, singleScore * 5, singleScore * 8]
 
 // Levels
 let level = 1
-const levelThresholds = [500, 1000, 5000, 10000, 16000, 20000]
+const levelThresholds = [500, 1000, 2500, 5000, 8000, 12000, 17000, 20000, 25000]
 
 // First active piece
 let activePiece
@@ -232,6 +242,8 @@ function ghostPosition() {
 function moveLeft() {
     if (!testTranslation('left', activePiece.relativePosArr[0] - 1, activePiece.rotationIdx)) {
         translate(activePiece.relativePosArr[0] -= 1)
+        moveSound.currentTime = 0
+        moveSound.play()
     }
 }
 
@@ -239,6 +251,8 @@ function moveLeft() {
 function moveRight() {
     if (!testTranslation('right', activePiece.relativePosArr[0] + 1, activePiece.rotationIdx)) {
         translate(activePiece.relativePosArr[0] += 1)
+        moveSound.currentTime = 0
+        moveSound.play()
     }
 }
 
@@ -255,6 +269,8 @@ function moveDown() {
 function rotateClockwise() {
     let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
     if (!testRotation(testRotationIdx)) {
+        rotateSound.currentTime = 0
+        rotateSound.play()
         rotate('clockwise')
     }
 }
@@ -263,6 +279,8 @@ function rotateClockwise() {
 function rotateAnticlockwise() {
     let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
     if (!testRotation(testRotationIdx)) {
+        rotateSound.currentTime = 0
+        rotateSound.play()
         rotate('anticlockwise')
     }
 }
@@ -336,14 +354,19 @@ function lockPiece() {
         renderPiece()
         cell.classList.remove('active')
     }
-    if (gameOverCheck()) gameOver()
-    let completedRowsNum = completedLineCheck().length
-    let completeRows = completedLineCheck()
-    if (completedRowsNum > 0) increaseScore(completedRowsNum)
-    removeComplete(completeRows)
-    activePiece = nextPiece
-    nextPiece = addPiece(randomClass())
-    renderNextPiece()
+    lockSound.currentTime = 0
+    lockSound.play()
+    if (gameOverCheck()) {
+        gameOver()
+    } else {
+        let completedRowsNum = completedLineCheck().length
+        let completeRows = completedLineCheck()
+        if (completedRowsNum > 0) increaseScore(completedRowsNum)
+        removeComplete(completeRows)
+        activePiece = nextPiece
+        nextPiece = addPiece(randomClass())
+        renderNextPiece()
+    }
 }
 
 // ? Check whether game is over
@@ -367,16 +390,19 @@ function completedLineCheck() {
         }
         if (lockedCount === 10) completeRows.push(num)
     }
+    console.log(completeRows);
     return completeRows
 }
 
 // ? Remove completed lines and shift remaining locked pieces down
 function removeComplete(rows) {
-    for (rowNum of rows) {
+    const rowsReversed = rows.reverse()
+    for (rowNum of rowsReversed) {
         // Remove piece and locked classes from row
         for (let i = 0; i < width; i++) {
             cells[rowNum + i].className = ''
         }
+        
         // Find rows with locked cells above the row
         let currentRow = rowNum - width
         let lockedRows = []
@@ -389,6 +415,7 @@ function removeComplete(rows) {
             }
             currentRow -= width
         }
+
         // Remove locked and piece classes from each cell in the row, and add them to the cell below
         for (rowNum of lockedRows) {
             for (let i = 0; i < width; i++) {
@@ -409,6 +436,8 @@ function removeComplete(rows) {
 function increaseScore(numRows) {
     let messages = ['SINGLE', 'DOUBLE', 'TRIPLE', 'TETRIS!']
     if (numRows > 0) score += points[numRows - 1]
+    lineSound.currentTime = 0
+    lineSound.play()
     showMessage(messages[numRows - 1], 'alert')
     if (score >= levelThresholds[level - 1]) increaseLevel()
     renderScoreboard()
@@ -418,6 +447,9 @@ function increaseLevel() {
     level++
     speed -= speedDecrement
     renderScoreboard()
+    levelUpSound.currentTime = 0
+    levelUpSound.play()
+    containerEl.classList.replace(`level${level-1}`, `level${level}`)
     showMessage("LEVEL UP!", 'alert')
 }
 
@@ -480,7 +512,10 @@ function gameOver() {
     clearInterval(fallingPiece)
     showMessage("GAME OVER", 'persistent')
     resetBoard()
-    cells.map((cell) => cell.classList.add('gameover'))
+    gameOverSound.currentTime = 0
+    gameOverSound.play()
+    const reversedCells = cells.toReversed()
+    reversedCells.forEach((cell, idx) => setTimeout(() => cell.classList.add('gameover'), idx * 8))
 }
 
 // ? Pause
@@ -577,7 +612,7 @@ function renderScoreboard() {
 }
 
 function resetBoard() {
-    cells.map((cell) => cell.className = '')
+    cells.forEach((cell) => cell.className = '')
 }
 
 // ! Controls

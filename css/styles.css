@@ -19,14 +19,52 @@ body {
     height: 100vh;
 }
 
-.container {
+#container {
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: auto;
-    background-image: linear-gradient(to top, blue -10%, white 20%);
+    margin: auto;   
+}
+
+.level1 {
+    background-image: linear-gradient(to top, #396bf8 -10%, white 20%);
+}
+.level2 {
+    background-image: linear-gradient(to top, #e61c55 -10%, white 20%);;
+}
+
+.level3 {
+    background-image: linear-gradient(to top, #2dce21 -10%, white 20%);
+}
+
+.level4 {
+    background-image: linear-gradient(to top, #d727f7 -10%, white 20%);;
+}
+
+.level5 {
+    background-image: linear-gradient(to top, #ffe63f -10%, white 20%);
+}
+
+.level6 {
+    background-image: linear-gradient(to top, #23d7e2 -10%, white 20%);
+}
+
+.level7 {
+    background-image: linear-gradient(to top, #23e29f -10%, white 20%);
+}
+
+.level8 {
+    background-image: linear-gradient(to top, #ff6c11 -10%, white 20%);
+}
+
+.level9 {
+    background-image: linear-gradient(to top, #e0d852 -10%, white 20%);
+}
+
+.level10 {
+    background-image: linear-gradient(to top, #7700c3 -10%, white 20%);
 }
 
 /* Make borders visible for dev purpose

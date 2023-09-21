@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <div class="container">
+    <div id="container" class="level1">
         <section class="board-container">
             <h1>TETRIS</h1>
             <div class="board"></div>
@@ -25,6 +25,27 @@
             <div class="messaging-area"></div>
         </section>
     </div>
+    <audio id="move" controls style="display:none">
+        <source src="./assets/move.wav" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="bump" controls style="display:none">
+        <source src="./assets/bump.wav" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="game-over" controls style="display:none">
+        <source src="./assets/game-over.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="level-up" controls style="display:none">
+    <source src="./assets/level-up.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="line" controls style="display:none">
+    <source src="./assets/line.wav" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="lock" controls style="display:none">
+    <source src="./assets/lock.wav" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
+    <audio id="rotate" controls style="display:none">
+    <source src="./assets/rotate.wav" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
     <script src="./js/scripts-current.js"></script>
 </body>
 </html>
