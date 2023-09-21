@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+    <i id="menu-icon" class="fa-solid fa-bars fa-lg"></i>
     <div id="container" class="level1">
         <section class="board-container">
             <h1>TETRIS</h1>
@@ -24,6 +25,23 @@
             </div>
             <div class="messaging-area"></div>
         </section>
+    </div>
+    <div id="overlay">
+        <i id="close-overlay" class="fa-solid fa-x"></i>
+        <div class="overlay-container">
+            <h2>AUDIO</h2>
+            <div class="audio-controls">
+                <p id="audio-on">On</p>
+                <p id="audio-off">Off</p>
+            </div>
+            <h2>CONTROLS</h2>
+            <p><i class="fa-solid fa-arrow-left"></i> Move left</p>
+            <p><i class="fa-solid fa-arrow-right"></i> Move right</p>
+            <p><i class="fa-solid fa-arrow-up"></i> or <i class="fa-solid fa-x"></i> Rotate clockwise</p>
+            <p><i class="fa-solid fa-z"></i> Rotate anticlockwise</p>
+            <p>Space - Drop piece</p>
+            <p>P - Pause game</p>
+        </div>
     </div>
     <audio id="move" controls style="display:none">
         <source src="./assets/move.wav" type="audio/mpeg"> Your browser does not support the audio element.
@@ -46,6 +64,7 @@
     <audio id="rotate" controls style="display:none">
     <source src="./assets/rotate.wav" type="audio/mpeg"> Your browser does not support the audio element.
     </audio>
+    <script src="https://kit.fontawesome.com/bd1e5da2f1.js" crossorigin="anonymous"></script>
     <script src="./js/scripts-current.js"></script>
 </body>
 </html>

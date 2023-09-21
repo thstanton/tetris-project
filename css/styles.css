@@ -227,6 +227,80 @@ div .t {
     100% { opacity: 0; transform: scale(2, 2) translateY(-2.5vmin);}
 }
 
+@keyframes persistent {
+    0% { transform: scale(1, 1); }
+    50% { transform: scale(1.1, 1.1); }
+    100% { transform: scale(1, 1); }
+}
+
 .alert {
     animation: alert 1s ease both;
+}
+
+.persistent {
+    animation: persistent 2s ease infinite both;
+}
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    opacity: 0.8;
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  }
+
+.overlay-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#overlay h2 {
+    font-family: 'Fugaz One', sans-serif;
+    font-size: 7.5vmin;
+    text-align: center;
+    opacity: 1;
+}
+
+#overlay p {
+    font-family: 'K2D', sans-serif;
+    font-size: 3.5vmin;
+    text-align: center;
+    opacity: 1;
+    line-height: 6vmin;
+}
+
+.audio-controls {
+    display: flex;
+    gap: 3vmin;
+}
+
+#audio-on {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#audio-off {
+    cursor: pointer;
+}
+
+#close-overlay {
+    position: absolute;
+    right: 4vmin;
+    top: 4vmin;
+}
+
+#menu-icon {
+    position: absolute;
+    right: 4vmin;
+    top: 4vmin;
+    cursor: pointer; /* Add a pointer on hover */
 }

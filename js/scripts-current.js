@@ -7,6 +7,11 @@ const levelEl = document.querySelector('.level')
 const npGridEl = document.querySelector('.next-piece-grid')
 const messagingEl = document.querySelector('.messaging-area')
 const containerEl = document.getElementById('container')
+const overlay = document.getElementById('overlay')
+const overlayClose = document.getElementById('close-overlay')
+const menuIconEl = document.getElementById('menu-icon')
+const audioOnEl = document.getElementById('audio-on')
+const audioOffEl = document.getElementById('audio-off')
 
 // ? Sounds
 const moveSound = document.getElementById('move')
@@ -510,7 +515,7 @@ function gameStart() {
 function gameOver() {
     gameStatus = 'inactive'
     clearInterval(fallingPiece)
-    showMessage("GAME OVER", 'persistent')
+    showMessage("GAME OVER <p>press space to play again</p>", 'persistent')
     resetBoard()
     gameOverSound.currentTime = 0
     gameOverSound.play()
@@ -615,6 +620,14 @@ function resetBoard() {
     cells.forEach((cell) => cell.className = '')
 }
 
+function overlayOn() {
+    overlay.style.display = "block"
+}
+
+function overlayOff() {
+    overlay.style.display = "none"
+}
+
 // ! Controls
 function controls(event) {
     const key = event.keyCode
@@ -651,8 +664,36 @@ function controls(event) {
     }
 }
 
+function audioOn() {
+    moveSound.muted = false
+    bumpSound.muted = false
+    gameOverSound.muted = false
+    levelUpSound.muted = false
+    lineSound.muted = false
+    lockSound.muted = false
+    rotateSound.muted = false
+    audioOnEl.style.textDecoration = 'underline'
+    audioOffEl.style.textDecoration = 'none'
+}
+
+function audioOff() {
+    moveSound.muted = true
+    bumpSound.muted = true
+    gameOverSound.muted = true
+    levelUpSound.muted = true
+    lineSound.muted = true
+    lockSound.muted = true
+    rotateSound.muted = true
+    audioOffEl.style.textDecoration = 'underline'
+    audioOnEl.style.textDecoration = 'none'
+}
+
 // ! Events
 document.addEventListener('keydown', controls)
+menuIconEl.addEventListener('click', overlayOn)
+overlayClose.addEventListener('click', overlayOff)
+audioOnEl.addEventListener('click', audioOn)
+audioOffEl.addEventListener('click', audioOff)
 
 // ! Page load
 init()
