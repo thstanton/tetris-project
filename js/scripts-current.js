@@ -5,6 +5,7 @@ const scoreEl = document.querySelector('.score')
 const highScoreEl = document.querySelector('.high-score')
 const levelEl = document.querySelector('.level')
 const npGridEl = document.querySelector('.next-piece-grid')
+const messagingEl = document.querySelector('.messaging-area')
 
 // ? Variables
 // Board config
@@ -336,8 +337,10 @@ function lockPiece() {
         cell.classList.remove('active')
     }
     if (gameOverCheck()) gameOver()
-    increaseScore(completedLineCheck().length)
-    removeComplete(completedLineCheck())
+    let completedRowsNum = completedLineCheck().length
+    let completeRows = completedLineCheck()
+    if (completedRowsNum > 0) increaseScore(completedRowsNum)
+    removeComplete(completeRows)
     activePiece = nextPiece
     nextPiece = addPiece(randomClass())
     renderNextPiece()
@@ -404,7 +407,9 @@ function removeComplete(rows) {
 
 // ? Increase Score
 function increaseScore(numRows) {
+    let messages = ['SINGLE', 'DOUBLE', 'TRIPLE', 'TETRIS!']
     if (numRows > 0) score += points[numRows - 1]
+    showMessage(messages[numRows - 1], 'alert')
     if (score >= levelThresholds[level - 1]) increaseLevel()
     renderScoreboard()
 }
@@ -413,6 +418,7 @@ function increaseLevel() {
     level++
     speed -= speedDecrement
     renderScoreboard()
+    showMessage("LEVEL UP!", 'alert')
 }
 
 // ? Select random piece class
@@ -426,12 +432,31 @@ function fall() {
     moveDown()
     renderPiece()
 }
+// ! Player Messages
+// ? Show message - persistent(stays on screen until removed) or alert(stays on screen for set period)
+function showMessage(text, type) {
+    // Remove current persistent message if there is one
+    let currentMessage = messagingEl.querySelector('.persistent')
+    if (currentMessage) messagingEl.removeChild(currentMessage)
+    
+    // Create message
+    const message = document.createElement('div')
+    message.innerHTML = text
+    message.classList.add(type, 'message')
+
+    // Add message to messaging area
+    messagingEl.appendChild(message)
+
+    // If message is an alert, set time out
+    if (type === 'alert') setTimeout(() => messagingEl.removeChild(message), 3000)
+}
 
 // ! Init function
 function init() {
     buildBoard()
     nextPieceGrid()
     renderScoreboard()
+    showMessage("PRESS SPACE TO START", 'persistent')
 }
 
 // ! Game state functions
@@ -441,6 +466,7 @@ function gameStart() {
     resetBoard()
     activePiece = addPiece(randomClass())
     renderPiece()
+    showMessage("GO!", 'alert')
     fallingPiece = setInterval(fall, speed)
     level = 1
     score = 0
@@ -452,7 +478,7 @@ function gameStart() {
 function gameOver() {
     gameStatus = 'inactive'
     clearInterval(fallingPiece)
-    console.log("Game Over");
+    showMessage("GAME OVER", 'persistent')
     resetBoard()
     cells.map((cell) => cell.classList.add('gameover'))
 }
@@ -461,7 +487,7 @@ function gameOver() {
 function pauseGame() {
     gameStatus = 'paused'
     clearInterval(fallingPiece)
-    console.log("Pause");
+    showMessage("PAUSED<p>press space to restart</p>", 'persistent')
 }
 
 // ? Resume
@@ -470,6 +496,7 @@ function resumeGame() {
     // Render first piece
     renderPiece()
     fallingPiece = setInterval(fall, speed)
+    showMessage("RESUME", 'alert')
 }
 
 // ! Render functions
@@ -521,6 +548,19 @@ function renderNextPiece() {
     let grid = nextPiece.nextPieceGrid
     for (cell of grid) {
         cell.style.display = 'block'
+    }
+    // Resize the grid
+    if (grid === npg4x4Cells) {
+        npGridEl.style.width = '16vmin'
+        npGridEl.style.height = '16vmin'        
+    }
+    if (grid === npg2x2Cells) {
+        npGridEl.style.width = '8vmin'
+        npGridEl.style.height = '8vmin'
+    }
+    if (grid === npg3x3Cells) {
+        npGridEl.style.width = '12vmin'
+        npGridEl.style.height = '12vmin'
     }
 
     // Color the cells of the next piece
