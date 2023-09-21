@@ -77,8 +77,13 @@ div .ghost {
 }
 
 div .o {
-    background-color: aqua;
-    border: 0.5px solid black;
+    background-image: url(/Users/timstanton/code/tetris-project/assets/blocks.png);
+    background-size: auto 100%;
+    background-position: 13.5% 0;
+    border: none;
+    /* background-col
+    /* background-color: aqua;
+    border: 0.5px solid black; */
 }
 
 div .j {
@@ -97,8 +102,11 @@ div .s {
 }
 
 div .i {
-    background-color: blue;
-    border: 0.5px solid black;
+    background-image: url(/Users/timstanton/code/tetris-project/assets/blocks.png);
+    background-size: auto 100%;
+    border: none;
+    /* background-color: blue;
+    border: 0.5px solid black; */
 }
 
 div .z {
@@ -107,8 +115,11 @@ div .z {
 }
 
 div .t {
-    background-color: pink;
-    border: 0.5px solid black;
+    background-image: url(/Users/timstanton/code/tetris-project/assets/blue.png);
+    background-size: cover;
+    border: none;
+    /* background-color: pink; */
+    /* border: 0.5px solid black; */
 }
 
 .info-area {
@@ -130,25 +141,22 @@ div .t {
 }
 
 .next-piece-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1vmin;
     padding: 1vmin 2vmin 2vmin 2vmin;
     border: 2px solid gray;
+    width: 90%;
+    height: 20vmin;
 }
 
 .next-piece-box > p {
     text-align: center;
+    margin-bottom: 2vmin;
 }
 
 .next-piece-grid {
     display: flex;
     flex-flow: row wrap;
     font-size: x-small;
-    width: 18vmin;
-    height: 18vmin;
+    margin: auto;
     line-height: 0;
 }
 
