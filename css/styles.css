@@ -80,7 +80,7 @@ div .ghost {
 }
 
 div .o {
-    background-image: url(/Users/timstanton/code/tetris-project/assets/blocks.png);
+    background-image: url(../assets/blocks.png);
     background-size: auto 100%;
     background-position: 13.5% 0;
     border: none;
@@ -105,7 +105,7 @@ div .s {
 }
 
 div .i {
-    background-image: url(/Users/timstanton/code/tetris-project/assets/blocks.png);
+    background-image: url(../tetris-project/assets/blocks.png);
     background-size: auto 100%;
     border: none;
     /* background-color: blue;
