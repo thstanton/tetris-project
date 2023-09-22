@@ -5,22 +5,6 @@ const scoreEl = document.querySelector('.score')
 const highScoreEl = document.querySelector('.high-score')
 const levelEl = document.querySelector('.level')
 const npGridEl = document.querySelector('.next-piece-grid')
-const messagingEl = document.querySelector('.messaging-area')
-const containerEl = document.getElementById('container')
-const overlay = document.getElementById('overlay')
-const overlayClose = document.getElementById('close-overlay')
-const menuIconEl = document.getElementById('menu-icon')
-const audioOnEl = document.getElementById('audio-on')
-const audioOffEl = document.getElementById('audio-off')
-
-// ? Sounds
-const moveSound = document.getElementById('move')
-const bumpSound = document.getElementById('bump')
-const gameOverSound = document.getElementById('game-over')
-const levelUpSound = document.getElementById('level-up')
-const lineSound = document.getElementById('line')
-const lockSound = document.getElementById('lock')
-const rotateSound = document.getElementById('rotate')
 
 // ? Variables
 // Board config
@@ -31,10 +15,9 @@ const cellCount = width * height
 let cells = []
 
 // Next piece grid config
-let npg3x3Cells = nextPieceGrid(3, 3)
-let npg2x2Cells = nextPieceGrid(2, 2)
-let npg4x4Cells = nextPieceGrid(4, 4)
-const npgArr = [npg3x3Cells, npg2x2Cells, npg4x4Cells]
+const npgWidth = 4
+const npgHeight = 4
+const npgCellCount = npgWidth * npgHeight
 
 // Piece classes
 class Tpiece {
@@ -44,13 +27,11 @@ class Tpiece {
         this.cssClass = 't'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, 1, width, -1],
-            [0, width, -1, -width],
-            [0, -1, -width, 1],
-            [0, -width, 1, width]
+            [0, 1, 10, -1],
+            [0, 10, -1, -10],
+            [0, -1, -10, 1],
+            [0, -10, 1, 10]
         ]
-        this.nextPieceGrid = npg3x3Cells
-        this.nextPiecePos = [0, 1, 2, 4]
     }
 }
 
@@ -61,13 +42,11 @@ class Spiece {
         this.cssClass = 's'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width - 1), -1],
-            [0, 1, (width + 1), -width],
-            [0, width, (width - 1), 1],
-            [0, -1, -(width + 1), width]
+            [0, -10, -9, -1],
+            [0, 1, 11, -10],
+            [0, 10, 9, 1],
+            [0, -1, -11, 10]
         ]
-        this.nextPieceGrid = npg3x3Cells
-        this.nextPiecePos = [1, 2, 3, 4]
     }
 }
 
@@ -78,13 +57,11 @@ class Zpiece {
         this.cssClass = 'z'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width + 1), 1],
-            [0, 1, -(width - 1), width],
-            [0, width, -1, (width + 1)],
-            [0, -1, -width, (width -1)]
+            [0, -10, -11, 1],
+            [0, 1, -9, 10],
+            [0, 10, -1, 11],
+            [0, -1, -10, 9]
         ]
-        this.nextPieceGrid = npg3x3Cells
-        this.nextPiecePos = [0, 1, 4, 5]
     }
 }
 
@@ -95,13 +72,11 @@ class Lpiece {
         this.cssClass = 'l'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, (width + 1), width],
-            [0, 1, (width - 1), -1],
-            [0, width, -(width + 1), -width],
-            [0, -1, -(width - 1), 1]
+            [0, -10, 11, 10],
+            [0, 1, 9, -1],
+            [0, 10, -11, -10],
+            [0, -1, -9, 1]
         ]
-        this.nextPieceGrid = npg3x3Cells
-        this.nextPiecePos = [2, 3, 4, 5]
     }
 }
 
@@ -112,13 +87,11 @@ class Jpiece {
         this.cssClass = 'j'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, width, (width - 1)],
-            [0, 1, -1, -(width + 1)],
-            [0, width, -width, -(width - 1)],
-            [0, -1, 1, (width + 1)]
+            [0, -10, 10, 9],
+            [0, 1, -1, -11],
+            [0, 10, -10, -9],
+            [0, -1, 1, 11]
         ]
-        this.nextPieceGrid = npg3x3Cells
-        this.nextPiecePos = [0, 1, 2, 5]
     }
 }
 
@@ -129,13 +102,11 @@ class Opiece {
         this.cssClass = 'o'
         this.rotationIdx = 0
         this.rotationOffsets = [
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1],
-            [0, -width, -(width - 1), 1]
+            [0, -10, -9, 1],
+            [0, -10, -9, 1],
+            [0, -10, -9, 1],
+            [0, -10, -9, 1]
         ]
-        this.nextPieceGrid = npg2x2Cells
-        this.nextPiecePos = [0, 1, 2, 3]
     }
 }
 
@@ -147,12 +118,10 @@ class Ipiece {
         this.rotationIdx = 0
         this.rotationOffsets = [
             [0, 1, -2, -1],
-            [0, width, -(width * 2), -width],
+            [0, 10, -20, -10],
             [0, -1, 2, 1],
-            [0, -width, (width * 2), width]
+            [0, -10, 20, 10]
         ]
-        this.nextPieceGrid = npg4x4Cells
-        this.nextPiecePos = [4, 5, 6, 7]
     }
 }
 
@@ -167,19 +136,16 @@ const speedDecrement = 50
 
 // Scoring
 let score = 0
-let highScore = 100
-let highScoreBeaten = false
-let highScoreMsgDisplayed = false
+let highScore = 10000
 const singleScore = 100
 const points = [singleScore, singleScore * 3, singleScore * 5, singleScore * 8]
 
 // Levels
 let level = 1
-const levelThresholds = [500, 1000, 2500, 5000, 8000, 12000, 17000, 20000, 25000]
+const levelThresholds = [500, 1000, 5000, 10000, 16000, 20000]
 
 // First active piece
-let activePiece
-let nextPiece = addPiece(randomClass())
+let activePiece = addPiece(randomClass())
 let fallingPiece
 
 // ! Functions
@@ -205,19 +171,10 @@ function buildBoard() {
 }
 
 // ? Create next piece cells
-function nextPieceGrid(width, height) {
-    let npCells = []
-    for (let i = 0; i < height * width; i++) {
+function nextPieceGrid() {
+    for (let i = 0; i < cellCount; i++) {
         const cell = document.createElement('div')
-        cell.dataset.index = i
-        // cell.innerText = i
-        cell.style.height = `${100 / height}%`
-        cell.style.width = `${100 / width}%`
-        cell.style.display = 'none'
-        npGridEl.appendChild(cell)
-        npCells.push(cell)
     }
-    return npCells
 }
 
 // ? Create new piece
@@ -249,8 +206,6 @@ function ghostPosition() {
 function moveLeft() {
     if (!testTranslation('left', activePiece.relativePosArr[0] - 1, activePiece.rotationIdx)) {
         translate(activePiece.relativePosArr[0] -= 1)
-        moveSound.currentTime = 0
-        moveSound.play()
     }
 }
 
@@ -258,8 +213,6 @@ function moveLeft() {
 function moveRight() {
     if (!testTranslation('right', activePiece.relativePosArr[0] + 1, activePiece.rotationIdx)) {
         translate(activePiece.relativePosArr[0] += 1)
-        moveSound.currentTime = 0
-        moveSound.play()
     }
 }
 
@@ -276,8 +229,6 @@ function moveDown() {
 function rotateClockwise() {
     let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
     if (!testRotation(testRotationIdx)) {
-        rotateSound.currentTime = 0
-        rotateSound.play()
         rotate('clockwise')
     }
 }
@@ -286,8 +237,6 @@ function rotateClockwise() {
 function rotateAnticlockwise() {
     let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
     if (!testRotation(testRotationIdx)) {
-        rotateSound.currentTime = 0
-        rotateSound.play()
         rotate('anticlockwise')
     }
 }
@@ -361,19 +310,10 @@ function lockPiece() {
         renderPiece()
         cell.classList.remove('active')
     }
-    lockSound.currentTime = 0
-    lockSound.play()
-    if (gameOverCheck()) {
-        gameOver()
-    } else {
-        let completedRowsNum = completedLineCheck().length
-        let completeRows = completedLineCheck()
-        if (completedRowsNum > 0) increaseScore(completedRowsNum)
-        removeComplete(completeRows)
-        activePiece = nextPiece
-        nextPiece = addPiece(randomClass())
-        renderNextPiece()
-    }
+    if (gameOverCheck()) gameOver()
+    increaseScore(completedLineCheck().length)
+    removeComplete(completedLineCheck())
+    activePiece = addPiece(randomClass())
 }
 
 // ? Check whether game is over
@@ -397,8 +337,6 @@ function completedLineCheck() {
         }
         if (lockedCount === 10) completeRows.push(num)
     }
-    // Put them in numerical order
-    completeRows.sort((a, b) => a - b);
     return completeRows
 }
 
@@ -431,20 +369,16 @@ function removeComplete(rows) {
                 cells[rowNum + i + width].className = ''
                 // Add classes to target element
                 classList.forEach((element) => cells[rowNum + i + width].classList.add(element))   
-            }    
+            }
+               
         }
     }
 } 
 
-// ? Increase Score/Level
+// ? Increase Score
 function increaseScore(numRows) {
-    let messages = ['SINGLE', 'DOUBLE', 'TRIPLE', 'TETRIS!']
     if (numRows > 0) score += points[numRows - 1]
-    lineSound.currentTime = 0
-    lineSound.play()
-    showMessage(messages[numRows - 1], 'alert')
     if (score >= levelThresholds[level - 1]) increaseLevel()
-    if (score > highScore) newHighScore()
     renderScoreboard()
 }
 
@@ -452,19 +386,6 @@ function increaseLevel() {
     level++
     speed -= speedDecrement
     renderScoreboard()
-    levelUpSound.currentTime = 0
-    levelUpSound.play()
-    containerEl.classList.replace(`level${level-1}`, `level${level}`)
-    showMessage("LEVEL UP!", 'alert')
-}
-
-function newHighScore() {
-    highScore = score
-    if (!highScoreMsgDisplayed) {
-        showMessage("NEW HIGH SCORE!", 'alert')
-        highScoreMsgDisplayed = true
-    }
-    highScoreBeaten = true
 }
 
 // ? Select random piece class
@@ -478,71 +399,40 @@ function fall() {
     moveDown()
     renderPiece()
 }
-// ! Player Messages
-// ? Show message - persistent(stays on screen until removed) or alert(stays on screen for set period)
-function showMessage(text, type) {
-    // Remove current persistent message if there is one
-    let currentMessage = messagingEl.querySelector('.persistent')
-    if (currentMessage) messagingEl.removeChild(currentMessage)
-    
-    // Create message
-    const message = document.createElement('div')
-    message.innerHTML = text
-    message.classList.add(type, 'message')
-
-    // Styling for specific messages
-    if (text === "SINGLE") message.classList.add('single')
-    if (text === "DOUBLE") message.classList.add('double')
-    if (text === "TRIPLE") message.classList.add('triple')
-    if (text === "TETRIS!") message.classList.add('tetris')
-
-    // Add message to messaging area
-    messagingEl.appendChild(message)
-
-    // If message is an alert, set time out
-    if (type === 'alert') setTimeout(() => messagingEl.removeChild(message), 3000)
-}
 
 // ! Init function
 function init() {
     buildBoard()
-    nextPieceGrid()
     renderScoreboard()
-    showMessage("PRESS SPACE<p>to start game</p>", 'persistent')
 }
 
 // ! Game state functions
 // ? Game Start
 function gameStart() {
     gameStatus = 'active'
-    resetBoard()
     activePiece = addPiece(randomClass())
     renderPiece()
-    showMessage("GO!", 'alert')
     fallingPiece = setInterval(fall, speed)
     level = 1
     score = 0
     renderScoreboard()
-    renderNextPiece()
+    resetBoard()
 }
 
 // ? Game Over
 function gameOver() {
     gameStatus = 'inactive'
     clearInterval(fallingPiece)
-    highScoreBeaten ? showMessage("GAME OVER<p>you beat the highest score!</p><p>press space to play again</p>", 'persistent') : showMessage("GAME OVER<p>press space to play again</p>", 'persistent')
+    console.log("Game Over");
     resetBoard()
-    gameOverSound.currentTime = 0
-    gameOverSound.play()
-    const reversedCells = cells.toReversed()
-    reversedCells.forEach((cell, idx) => setTimeout(() => cell.classList.add('gameover'), idx * 8))
+    cells.map((cell) => cell.classList.add('gameover'))
 }
 
 // ? Pause
 function pauseGame() {
     gameStatus = 'paused'
     clearInterval(fallingPiece)
-    showMessage("PAUSED<p>press space to restart</p>", 'persistent')
+    console.log("Pause");
 }
 
 // ? Resume
@@ -551,7 +441,6 @@ function resumeGame() {
     // Render first piece
     renderPiece()
     fallingPiece = setInterval(fall, speed)
-    showMessage("RESUME", 'alert')
 }
 
 // ! Render functions
@@ -590,59 +479,13 @@ function removeGhost() {
     }
 }
 
-// ? Render next piece
-function renderNextPiece() {
-    // Hide all grids & remove classes
-    for (arr of npgArr) {
-        for (cell of arr) {
-            cell.style.display = 'none'
-            cell.className = ''
-        }
-    }
-    // Show grid that correlates with the next piece
-    let grid = nextPiece.nextPieceGrid
-    for (cell of grid) {
-        cell.style.display = 'block'
-    }
-    // Resize the grid
-    if (grid === npg4x4Cells) {
-        npGridEl.style.width = '16vmin'
-        npGridEl.style.height = '16vmin'        
-    }
-    if (grid === npg2x2Cells) {
-        npGridEl.style.width = '8vmin'
-        npGridEl.style.height = '8vmin'
-    }
-    if (grid === npg3x3Cells) {
-        npGridEl.style.width = '12vmin'
-        npGridEl.style.height = '12vmin'
-    }
-
-    // Color the cells of the next piece
-    let positions = nextPiece.nextPiecePos
-    let colorCells = positions.map((pos) => grid[pos])
-    for (cell of colorCells) {
-        cell.classList.add(nextPiece.cssClass)
-    }
-}
-
 function renderScoreboard() {
     scoreEl.innerHTML = score
     levelEl.innerHTML = level
-    highScoreEl.innerHTML = highScore
-    if (highScoreBeaten) highScoreEl.innerHTML = `${highScore}*`
 }
 
 function resetBoard() {
-    cells.forEach((cell) => cell.className = '')
-}
-
-function overlayOn() {
-    overlay.style.display = "block"
-}
-
-function overlayOff() {
-    overlay.style.display = "none"
+    cells.map((cell) => cell.className = '')
 }
 
 // ! Controls
@@ -681,36 +524,8 @@ function controls(event) {
     }
 }
 
-function audioOn() {
-    moveSound.muted = false
-    bumpSound.muted = false
-    gameOverSound.muted = false
-    levelUpSound.muted = false
-    lineSound.muted = false
-    lockSound.muted = false
-    rotateSound.muted = false
-    audioOnEl.style.textDecoration = 'underline'
-    audioOffEl.style.textDecoration = 'none'
-}
-
-function audioOff() {
-    moveSound.muted = true
-    bumpSound.muted = true
-    gameOverSound.muted = true
-    levelUpSound.muted = true
-    lineSound.muted = true
-    lockSound.muted = true
-    rotateSound.muted = true
-    audioOffEl.style.textDecoration = 'underline'
-    audioOnEl.style.textDecoration = 'none'
-}
-
 // ! Events
 document.addEventListener('keydown', controls)
-menuIconEl.addEventListener('click', overlayOn)
-overlayClose.addEventListener('click', overlayOff)
-audioOnEl.addEventListener('click', audioOn)
-audioOffEl.addEventListener('click', audioOff)
 
 // ! Page load
 init()

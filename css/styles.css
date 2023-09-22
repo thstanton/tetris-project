@@ -114,57 +114,57 @@ div .gameover {
     border: none;
 }
 
-div .ghost {
-    opacity: 0.2;
-}
-
 div .o {
     background-image: url(../assets/yellow.png);
     background-size: cover;
     border: none;
-    /* background-col
-    /* background-color: aqua;
-    border: 0.5px solid black; */
+    opacity: 1;
 }
 
 div .j {
     background-image: url(../assets/blue.png);
     background-size: cover;
     border: none;
+    opacity: 1;
 }
 
 div .l {
     background-image: url(../assets/orange.png);
     background-size: cover;
     border: none;
+    opacity: 1;
 }
 
 div .s {
     background-image: url(../assets/green.png);
     background-size: cover;
     border: none;
+    opacity: 1;
 }
 
 div .i {
     background-image: url(../assets/cyan.png);
     background-size: cover;
     border: none;
-    /* background-color: blue;
-    border: 0.5px solid black; */
+    opacity: 1;
 }
 
 div .z {
     background-image: url(../assets/red.png);
     background-size: cover;
     border: none;
+    opacity: 1;
 }
 
 div .t {
     background-image: url(../assets/purple.png);
     background-size: cover;
     border: none;
-    /* background-color: pink; */
-    /* border: 0.5px solid black; */
+    opacity: 1;
+}
+
+div .ghost {
+    opacity: 0.2;
 }
 
 .info-area {
@@ -209,7 +209,7 @@ div .t {
 .messaging-area {
     font-family: 'Fugaz One', sans-serif;
     font-size: xx-large;
-    text-align: left;
+    text-align: center;
     padding-left: 2vmin;
 }
 
@@ -239,6 +239,25 @@ div .t {
 
 .persistent {
     animation: persistent 2s ease infinite both;
+}
+
+.single {
+    color: #396bf8;
+}
+
+.double {
+    color: #e61c55;
+    font-size: 110%;
+}
+
+.triple {
+    color: #ffe63f;
+    font-size: 150%;
+}
+
+.tetris {
+    color: #d727f7;
+    font-size: 200%;
 }
 
 #overlay {
@@ -294,8 +313,8 @@ div .t {
 
 #close-overlay {
     position: absolute;
-    right: 4vmin;
-    top: 4vmin;
+    right: 8vmin;
+    top: 8vmin;
 }
 
 #menu-icon {
