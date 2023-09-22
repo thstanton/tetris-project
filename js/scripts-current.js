@@ -395,14 +395,15 @@ function completedLineCheck() {
         }
         if (lockedCount === 10) completeRows.push(num)
     }
+    // Put them in numerical order
+    completeRows.sort((a, b) => a - b);
     console.log(completeRows);
     return completeRows
 }
 
 // ? Remove completed lines and shift remaining locked pieces down
 function removeComplete(rows) {
-    const rowsReversed = rows.reverse()
-    for (rowNum of rowsReversed) {
+    for (rowNum of rows) {
         // Remove piece and locked classes from row
         for (let i = 0; i < width; i++) {
             cells[rowNum + i].className = ''
