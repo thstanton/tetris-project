@@ -251,6 +251,9 @@ function moveLeft() {
         translate(activePiece.relativePosArr[0] -= 1)
         moveSound.currentTime = 0
         moveSound.play()
+    } else {
+        bumpSound.currentTime = 0
+        bumpSound.play()
     }
 }
 
@@ -260,6 +263,9 @@ function moveRight() {
         translate(activePiece.relativePosArr[0] += 1)
         moveSound.currentTime = 0
         moveSound.play()
+    } else {
+        bumpSound.currentTime = 0
+        bumpSound.play()
     }
 }
 
@@ -274,27 +280,188 @@ function moveDown() {
 
 // ? Rotate Clockwise
 function rotateClockwise() {
-    let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
-    if (!testRotation(testRotationIdx)) {
+    let testRotationIdx = activePiece.rotationIdx !== 3 ? activePiece.rotationIdx + 1 : 0
+    // Test 1
+    if (!testRotation(activePiece.relativePosArr[0], testRotationIdx)) {
         rotateSound.currentTime = 0
         rotateSound.play()
         rotate('clockwise')
+        return
     }
+    // Wall kicks
+    // J, L, S, Z & T pieces
+    if (activePiece.cssClass === 'j'
+        || activePiece.cssClass === 'l'
+        || activePiece.cssClass === 's'
+        || activePiece.cssClass === 'z'
+        || activePiece.cssClass === 't') {
+        // Test 2
+        if (!testRotation(activePiece.relativePosArr[0] + 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 1)
+            rotate('clockwise')
+            return
+        }
+        // Test 3
+        if (!testRotation(activePiece.relativePosArr[0] - 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 1)
+            rotate('clockwise')
+            return
+        }
+        // Test 4
+        if (!testRotation(activePiece.relativePosArr[0] + (width + 1), testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += (width + 1))
+            rotate('clockwise')
+            return
+        } 
+        // Test 5
+        if (!testRotation(activePiece.relativePosArr[0] - (width - 1), testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= (width - 1))
+            rotate('clockwise')
+            return
+        }
+    }
+    // I pieces
+    if (activePiece.cssClass === 'i') {
+        // Test 2
+        if (!testRotation(activePiece.relativePosArr[0] + 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 1)
+            rotate('clockwise')
+            return
+        }
+        // Test 3
+        if (!testRotation(activePiece.relativePosArr[0] - 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 1)
+            rotate('clockwise')
+            return
+        }
+        // Test 4
+        if (!testRotation(activePiece.relativePosArr[0] + 2, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 2)
+            rotate('clockwise')
+            return
+        } 
+        // Test 5
+        if (!testRotation(activePiece.relativePosArr[0] - 2, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 2)
+            rotate('clockwise')
+            return
+        }
+    }
+    // If no moves possible, play bump sound
+    bumpSound.currentTime = 0
+    bumpSound.play()
 }
 
 // ? Rotate Anticlockwise
 function rotateAnticlockwise() {
     let testRotationIdx = activePiece.rotationIdx !== 0 ? activePiece.rotationIdx - 1 : 3
-    if (!testRotation(testRotationIdx)) {
+    if (!testRotation(activePiece.relativePosArr[0], testRotationIdx)) {
         rotateSound.currentTime = 0
         rotateSound.play()
         rotate('anticlockwise')
+        return
     }
+    // Wall kicks
+    // J, L, S, Z & T pieces
+    if (activePiece.cssClass === 'j'
+        || activePiece.cssClass === 'l'
+        || activePiece.cssClass === 's'
+        || activePiece.cssClass === 'z'
+        || activePiece.cssClass === 't') {
+        // Test 2
+        if (!testRotation(activePiece.relativePosArr[0] + 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 1)
+            rotate('anticlockwise')
+            return
+        }
+        // Test 3
+        if (!testRotation(activePiece.relativePosArr[0] - 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 1)
+            rotate('anticlockwise')
+            return
+        }
+        // Test 4
+        if (!testRotation(activePiece.relativePosArr[0] + (width + 1), testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += (width + 1))
+            rotate('anticlockwise')
+            return
+        } 
+        // Test 5
+        if (!testRotation(activePiece.relativePosArr[0] - (width - 1), testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= (width - 1))
+            rotate('anticlockwise')
+            return
+        }
+    }
+    // I pieces
+    if (activePiece.cssClass === 'i') {
+        // Test 2
+        if (!testRotation(activePiece.relativePosArr[0] + 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 1)
+            rotate('anticlockwise')
+            return
+        }
+        // Test 3
+        if (!testRotation(activePiece.relativePosArr[0] - 1, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 1)
+            rotate('anticlockwise')
+            return
+        }
+        // Test 4
+        if (!testRotation(activePiece.relativePosArr[0] + 2, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] += 2)
+            rotate('anticlockwise')
+            return
+        } 
+        // Test 5
+        if (!testRotation(activePiece.relativePosArr[0] - 2, testRotationIdx)) {
+            rotateSound.currentTime = 0
+            rotateSound.play()
+            translate(activePiece.relativePosArr[0] -= 2)
+            rotate('anticlockwise')
+            return
+        }
+    }
+    // If no moves possible, play bump sound
+    bumpSound.currentTime = 0
+    bumpSound.play()
 }
 
 // ? Drop piece
 function dropPiece() {
     translate(findLowest())
+    renderPiece()
+    lockPiece()
 }
 
 // ? Test whether movement is possible
@@ -317,22 +484,23 @@ function testTranslation(direction, anchorPos, rotationIdx) {
 
     // Check left bounds
     if (direction === 'left') {
-        let modulusArray = potentialPosition.map((relativePos) => relativePos % 10)
+        let modulusArray = potentialPosition.map((relativePos) => relativePos % width)
+        console.log(modulusArray);
         return modulusArray.includes(9) 
-    
+    }
     // Check right bounds
-    } else if (direction === 'right') {
-        let modulusArray = potentialPosition.map((relativePos) => relativePos % 10)
+    if (direction === 'right') {
+        let modulusArray = potentialPosition.map((relativePos) => relativePos % width)
         return modulusArray.includes(0)
-
-    } else if (direction === 'down') {
+    }
+    if (direction === 'down') {
         return potentialPosition.some((pos) => pos > cellCount - 1)
     }
 }
 
 // Rotations
-function testRotation(rotationIdx) {
-    let potentialPosition = activePiece.rotationOffsets[rotationIdx].map((offset) => activePiece.relativePosArr[0] + offset)
+function testRotation(anchorPos, rotationIdx) {
+    let potentialPosition = activePiece.rotationOffsets[rotationIdx].map((offset) => anchorPos + offset)
 
     if (activePiece.relativePosArr[0] % 10 < 6) {
         return testTranslation('left', potentialPosition[0], rotationIdx)    
@@ -361,19 +529,20 @@ function lockPiece() {
         renderPiece()
         cell.classList.remove('active')
     }
-    lockSound.currentTime = 0
-    lockSound.play()
     if (gameOverCheck()) {
         gameOver()
-    } else {
-        let completedRowsNum = completedLineCheck().length
-        let completeRows = completedLineCheck()
-        if (completedRowsNum > 0) increaseScore(completedRowsNum)
-        removeComplete(completeRows)
-        activePiece = nextPiece
-        nextPiece = addPiece(randomClass())
-        renderNextPiece()
+        return
     }
+    lockSound.currentTime = 0
+    lockSound.play()
+    let completedRowsNum = completedLineCheck().length
+    let completeRows = completedLineCheck()
+    if (completedRowsNum > 0) increaseScore(completedRowsNum)
+    removeComplete(completeRows)
+    activePiece = nextPiece
+    nextPiece = addPiece(randomClass())
+    renderNextPiece()
+
 }
 
 // ? Check whether game is over
@@ -531,11 +700,16 @@ function gameOver() {
     gameStatus = 'inactive'
     clearInterval(fallingPiece)
     highScoreBeaten ? showMessage("GAME OVER<p>you beat the highest score!</p><p>press space to play again</p>", 'persistent') : showMessage("GAME OVER<p>press space to play again</p>", 'persistent')
-    resetBoard()
+    // resetBoard()
     gameOverSound.currentTime = 0
     gameOverSound.play()
     const reversedCells = cells.toReversed()
-    reversedCells.forEach((cell, idx) => setTimeout(() => cell.classList.add('gameover'), idx * 8))
+    reversedCells.forEach((cell, idx) => { 
+        setTimeout(() => {
+            cell.classList.remove('t', 's', 'l', 'z', 'i', 'j', 'o', 'active', 'locked', 'ghost')
+            cell.classList.add('gameover')
+        }, idx * 8)
+    })
 }
 
 // ? Pause
@@ -634,7 +808,7 @@ function renderScoreboard() {
 }
 
 function resetBoard() {
-    cells.forEach((cell) => cell.className = '')
+    cells.forEach((cell) => cell.classList.remove('t', 's', 'l', 'z', 'i', 'j', 'o', 'active', 'locked', 'ghost', 'gameover'))
 }
 
 function overlayOn() {
@@ -665,8 +839,8 @@ function controls(event) {
         if (key === down) moveDown()
         if (key === left) moveLeft()
         if (key === right) moveRight()
-        if (key === z || key === up) rotateClockwise()
-        if (key === x) rotateAnticlockwise()
+        if (key === x || key === up) rotateClockwise()
+        if (key === z) rotateAnticlockwise()
         if (key === space) dropPiece()
         if (key === p) pauseGame()
 
