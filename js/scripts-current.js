@@ -537,8 +537,10 @@ function lockPiece() {
     lockSound.play()
     let completedRowsNum = completedLineCheck().length
     let completeRows = completedLineCheck()
-    if (completedRowsNum > 0) increaseScore(completedRowsNum)
-    removeComplete(completeRows)
+    if (completedRowsNum > 0) {
+        increaseScore(completedRowsNum)
+        removeComplete(completeRows)
+    }
     activePiece = nextPiece
     nextPiece = addPiece(randomClass())
     renderNextPiece()
@@ -590,6 +592,7 @@ function removeComplete(rows) {
             }
             currentRow -= width
         }
+        
         // Remove locked and piece classes from each cell in the row, and add them to the cell below
         for (rowNum of lockedRows) {
             for (let i = 0; i < width; i++) {
@@ -599,8 +602,8 @@ function removeComplete(rows) {
                 // Remove classes from target element
                 cells[rowNum + i + width].className = ''
                 // Add classes to target element
-                classList.forEach((element) => cells[rowNum + i + width].classList.add(element))   
-            }    
+                classList.forEach((element) => cells[rowNum + i + width].classList.add(element))  
+            }
         }
     }
 } 
@@ -683,14 +686,17 @@ function init() {
 // ! Game state functions
 // ? Game Start
 function gameStart() {
+    level = 1
+    score = 0
+    speed = 500
+    containerEl.classList.remove('level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8', 'level9', 'level10')
+    containerEl.classList.add('level1')
     gameStatus = 'active'
     resetBoard()
     activePiece = addPiece(randomClass())
     renderPiece()
     showMessage("GO!", 'alert')
     fallingPiece = setInterval(fall, speed)
-    level = 1
-    score = 0
     renderScoreboard()
     renderNextPiece()
 }
