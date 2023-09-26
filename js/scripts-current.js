@@ -686,17 +686,17 @@ function init() {
 // ! Game state functions
 // ? Game Start
 function gameStart() {
-    level = 1
-    score = 0
-    speed = 500
-    containerEl.classList.remove('level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8', 'level9', 'level10')
-    containerEl.classList.add('level1')
     gameStatus = 'active'
     resetBoard()
     activePiece = addPiece(randomClass())
     renderPiece()
     showMessage("GO!", 'alert')
     fallingPiece = setInterval(fall, speed)
+    level = 1
+    score = 0
+    speed = 500
+    containerEl.classList.remove('level1', 'level2', 'level3', 'level4', 'level5', 'level6', 'level7', 'level8', 'level9', 'level10')
+    containerEl.classList.add('level1')
     renderScoreboard()
     renderNextPiece()
 }
