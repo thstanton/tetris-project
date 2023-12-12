@@ -1,23 +1,23 @@
 
 # Project 1: Tetris ReadMe
 
-**Description**
+## Description
 
 The project is my take on Tetris. It was built as my first major project on the General Assembly Software Engineering Immersive course. The game is built entirely on JavaScript.
 
-**Deployment link**
+## Deployment link
 
 [https://thstanton.github.io/tetris-project/](https://thstanton.github.io/tetris-project/)
 
-**Getting Started/Code Installation**
+## Getting Started/Code Installation
 
 The code is accessible through my Github repo, here: [https://github.com/thstanton/tetris-project](https://github.com/thstanton/tetris-project)
 
-**Timeframe & Working Team**
+## Timeframe & Working Team
 
 This project was completed solo, in 1 week.
 
-**Technologies Used**
+## Technologies Used
 
 * JavaScript
 * CSS
@@ -28,7 +28,7 @@ This project was completed solo, in 1 week.
 * Google Fonts
 * FontAwesome
 
-**Brief**
+## Brief
 **Overview:**
 
 Let's start out with something fun - a game! You will be working individually for this project, but we'll be guiding you along the process and helping as you go. Show us what you've got!
@@ -51,10 +51,10 @@ Your app must:
 * A git repository hosted on Github, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
 * A readme.md file with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc. (completed post project)
 
-**Planning**
+## Planning
 
 
-**Build/Code Process**
+## Build/Code Process
 
 **Layout**
 
@@ -322,7 +322,7 @@ With the game mostly complete, I added a series of tweaks to improve the look an
 
 The final feature I added to the game was what the official Tetris guideline refers to as ‘wall kicks’. These are a series of alternate positions that a piece can move to when attempting to rotate in a tight space. I implemented this as a series of additional tests that run if a rotation test fails. Essentially, if a piece cannot rotate in its current position, tests will also run on one space to the right or left, one space up and right and one space down and left. These tests do not apply to the square ‘O’ pieces, and slightly different tests apply to the long ‘I’ piece.
 
-**Challenges**
+## Challenges
 
 **Piece Placement and Rotation**
 
@@ -334,13 +334,13 @@ My biggest challenge during this project was a bug I encountered with the line d
 
 I eventually arrived at the solution while I was away from the computer, working through the requirements for the algorithm to be successful in my head. I realised that the logic of the function was sound, but relied on the lines being processed from top to bottom. Because my formulation for the pieces started in the central anchor position then clockwise from that point, the rows were being added to the array in the same order. This meant that in certain cases, the lines were not being processed top to bottom. A single line of code which sorted the completed lines array into numerical order fixed this bug - meaning that the line deletion and movement of the other locked cells into the empty space now worked consistently correctly. 
 
-**Wins**
+## Wins
 
 **Messaging**
 
 I am very pleased with the implementation of the messaging as it feels quite dynamic and fluid while playing. The formulation of the function made this very easy to plug into different trigger points in the gameplay, and the fact that it is able to handle multiple messages that can be triggered quite close to each other or at the same time was something I was not sure how to achieve at the outset. The animation of the messages adds to the look and feel of the game, adding a bit of polish to the interface, with the more fluid motion providing a counterpoint to the blockier movement of the game.
 
-**Key Learnings/Takeaways**
+## Key Learnings/Takeaways
 
 **Arrays**
 
@@ -354,9 +354,9 @@ I have learnt to break down functions into key components, using comments to hel
 
 Having not created a project this complex before, I learnt a lot about how to structure a project - grouping key types of statements together such as DOM elements, variables, functions and events. I also found it very useful thinking about testing functions, game state functions and rendering functions separately as they enabled me to think more clearly about the purposes of specific functions and test that they were working as intended.
 
-**Bugs**
+## Bugs
 
-No bugs detected
+The levelling up and game over functions are not completely working as intended. Sometimes at Game Over the interval is not cleared and pieces continue to fall. The speed of the pieces falling is not reset at game over, and is not increasing during the game. I think that this is due to the timing of the interval being cleared.
 
 **Future Improvements**
 
