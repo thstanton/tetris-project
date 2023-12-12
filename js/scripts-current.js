@@ -761,7 +761,7 @@ function renderPiece() {
 // ? Remove piece
 function removePiece() {
     // Remove the relevant CSS class from each cell
-    for (cell of activePiece.actualPosArr) {
+    for (let cell of activePiece.actualPosArr) {
         cell.classList.remove(activePiece.cssClass, 'active')    
     }
     removeGhost()
@@ -770,7 +770,7 @@ function removePiece() {
 // ? Render ghost piece
 function renderGhost() {
     let ghostCells = ghostPosition().map((pos) => cells[pos])
-    for (cell of ghostCells) {
+    for (let cell of ghostCells) {
         if (!cell.classList.contains('active')) cell.classList.add(activePiece.cssClass, 'ghost')
     }
 }
