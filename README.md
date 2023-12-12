@@ -53,6 +53,7 @@ Your app must:
 
 ## Planning
 
+![Controls wireframe](./readme-images/image1.png)
 
 ## Build/Code Process
 
