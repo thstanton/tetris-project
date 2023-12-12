@@ -61,6 +61,24 @@ Your app must:
 I began the project by using HTML and CSS to create the basic page layout. I wanted the page to be responsive to different browser windows, so I used a combination of flexboxes and specifying sizes in vmin to achieve this. By far the most challenging part of this was creating the large vertical TETRIS title, which I wanted to place alongside the game board and have it maintain the height of the board in different sizes. I had to try various implementations of transforming the text, using the writing mode: vertical-lr property, line-height, flexbox properties and font-sizes to achieve the desired effect.
 
 **Creating and translating the tetrominoes**
+'''js
+class Tpiece {
+    constructor() {
+        this.relativePosArr = [24, 23, 25, 34]
+        this.actualPosArr = []
+        this.cssClass = 't'
+        this.rotationIdx = 0
+        this.rotationOffsets = [
+            [0, 1, width, -1],
+            [0, width, -1, -width],
+            [0, -1, -width, 1],
+            [0, -width, 1, width]
+        ]
+        this.nextPieceGrid = npg3x3Cells
+        this.nextPiecePos = [0, 1, 2, 4]
+    }
+}
+'''
 
 I used JavaScript classes to create the tetrominoes, enabling me to store the information relative to each shape. Each shape consists of an array of 4 indices, which represent the starting position of each shape. The first index is the central point of the shape, which I have referred to as the anchor position throughout the code. The other 3 indices are the squares in order clockwise from the anchor position.
 
