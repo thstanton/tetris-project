@@ -162,7 +162,8 @@ const pieceClasses = [Tpiece, Spiece, Zpiece, Lpiece, Jpiece, Opiece, Ipiece]
 let gameStatus = 'inactive'
 
 // Game speed
-let speed = 500
+let speed = 600
+const startSpeed = 600
 const speedDecrement = 50
 
 // Scoring
@@ -478,7 +479,7 @@ function testTranslation(direction, anchorPos, rotationIdx) {
     let potentialCells = potentialPosition.map((pos) => cells[pos])
 
     // Check that none of them are locked
-    for (cell of potentialCells) {
+    for (let cell of potentialCells) {
         if (cell.classList.contains('locked')) return cell
     }
 
@@ -524,7 +525,7 @@ function findLowest() {
 
 // ? Lock piece and generate a new one
 function lockPiece() {
-    for (cell of activePiece.actualPosArr) {
+    for (let cell of activePiece.actualPosArr) {
         cell.classList.add('locked')
         renderPiece()
         cell.classList.remove('active')
@@ -621,7 +622,10 @@ function increaseScore(numRows) {
 
 function increaseLevel() {
     level++
+    stopFall()
+    console.log(fallingPiece)
     speed -= speedDecrement
+    startFall()
     renderScoreboard()
     levelUpSound.currentTime = 0
     levelUpSound.play()
@@ -649,6 +653,15 @@ function fall() {
     moveDown()
     renderPiece()
 }
+
+function startFall() {
+    fallingPiece = setInterval(fall, speed)
+}
+
+function stopFall() {
+    clearInterval(fallingPiece)
+}
+
 // ! Player Messages
 // ? Show message - persistent(stays on screen until removed) or alert(stays on screen for set period)
 function showMessage(text, type) {
@@ -694,8 +707,8 @@ function gameStart() {
     showMessage("GO!", 'alert')
     level = 1
     score = 0
-    speed = 500
-    fallingPiece = setInterval(fall, speed)
+    speed = startSpeed
+    startFall()
     renderScoreboard()
     renderNextPiece()
 }
@@ -703,7 +716,7 @@ function gameStart() {
 // ? Game Over
 function gameOver() {
     gameStatus = 'inactive'
-    clearInterval(fallingPiece)
+    stopFall()
     highScoreBeaten ? showMessage("GAME OVER<p>you beat the highest score!</p><p>press space to play again</p>", 'persistent') : showMessage("GAME OVER<p>press space to play again</p>", 'persistent')
     // resetBoard()
     gameOverSound.currentTime = 0
@@ -720,7 +733,7 @@ function gameOver() {
 // ? Pause
 function pauseGame() {
     gameStatus = 'paused'
-    clearInterval(fallingPiece)
+    stopFall()
     showMessage("PAUSED<p>press space to restart</p>", 'persistent')
 }
 
@@ -729,7 +742,7 @@ function resumeGame() {
     gameStatus = 'active'
     // Render first piece
     renderPiece()
-    fallingPiece = setInterval(fall, speed)
+    startFall()
     showMessage("RESUME", 'alert')
 }
 
