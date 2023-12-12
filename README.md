@@ -53,7 +53,29 @@ Your app must:
 
 ## Planning
 
+**Planning Overview**
+- Draw game board
+- Initial state - game board with message "Press Space to Start"
+- Active piece randomly chosen (spawn rotation random?), next random piece show in 'next piece' box 
+- Active piece moves towards bottom
+- Collision detection 
+    - if any bottom edge touches top edge of a locked piece, it locks. 
+    - if any part of a tetromino would go outside of one of the sides when rotated it translates inward?
+    - if a tetromino is trapped between locked pieces and/or the side it cannot rotate
+    - if any part of a tetromino would extend above the top row, the game ends
+- Player controls active piece using the keyboard controls
+- Each tetromino can be translated and rotated clockwise into 4 different positions (behaviour of O piece slightly different)
+- When a piece 'locks' it remains visible at the bottom and those squares are no longer usable for placing or rotating an active piece
+- If a row or rows are 'complete', they flash, disappear and all other 'locked' pieces translate down.
+- When rows are completed, the score increases
+- The level (and speed) increases when player hits a certain score. Background graphics/colours change? Music playback speed increases.
+- When game is over, game reverts to initial state (with addition of score, top score updated if beaten)
+
+**Wireframes**
 ![Controls wireframe](/readme-images/image1.png)
+![Tetrominoes and rotations](/readme-images/image12.png)
+![Page layout and gameplay](/readme-images/image6.png)
+
 
 ## Build/Code Process
 
