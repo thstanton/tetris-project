@@ -544,7 +544,6 @@ function lockPiece() {
     activePiece = nextPiece
     nextPiece = addPiece(randomClass())
     renderNextPiece()
-
 }
 
 // ? Check whether game is over
