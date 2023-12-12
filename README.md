@@ -96,13 +96,86 @@ With the movement of the pieces implemented, the next phase of the project was e
 
 I created a pair of testing functions - one for translation and one for rotation - which take the potential position the player is trying to move a piece to and check that the position of every piece is possible within the rules of the game.
 
+```js
+function testTranslation(direction, anchorPos, rotationIdx) {
+
+    // Get new potential position
+    let potentialPosition = activePiece.rotationOffsets[rotationIdx].map((offset) => anchorPos + offset)
+
+    // Check none of the positions exceed the cell count
+    if (potentialPosition.some((pos) => pos > cellCount - 1)) return true
+
+    // Get an array of the potential cells
+    let potentialCells = potentialPosition.map((pos) => cells[pos])
+
+    // Check that none of them are locked
+    for (cell of potentialCells) {
+        if (cell.classList.contains('locked')) return cell
+    }
+
+    // Check left bounds
+    if (direction === 'left') {
+        let modulusArray = potentialPosition.map((relativePos) => relativePos % width)
+        console.log(modulusArray);
+        return modulusArray.includes(9) 
+    }
+    // Check right bounds
+    if (direction === 'right') {
+        let modulusArray = potentialPosition.map((relativePos) => relativePos % width)
+        return modulusArray.includes(0)
+    }
+    if (direction === 'down') {
+        return potentialPosition.some((pos) => pos > cellCount - 1)
+    }
+}
+```
+
 The left and right tests use the modulus of the width to work out the indices’ position in the row and check that the potential positions do not exceed the bounds of the row. The downward test checks that none of the cells’ indices would be greater than the index of the last cell. The test function also checks that none of the cells are occupied - ie. have a class of ‘locked’.
+
+```js
+function testRotation(anchorPos, rotationIdx) {
+    let potentialPosition = activePiece.rotationOffsets[rotationIdx].map((offset) => anchorPos + offset)
+
+    if (activePiece.relativePosArr[0] % 10 < 6) {
+        return testTranslation('left', potentialPosition[0], rotationIdx)    
+    }
+
+    if (activePiece.relativePosArr[0] % 10 > 5) {
+        return testTranslation('right', potentialPosition[0], rotationIdx)    
+    }
+}
+```
 
 The rotation test sets the potential position with the new rotation and runs the left or right translation test based on whether the piece is towards the left or the right side of the board.
 
 **Locking Pieces**
 
 Once the pieces consistently stayed within bounds, I was then able to use setInterval to make the active pieces ‘fall’. I created separate movement functions for each type of movement (left, right, down, rotate clockwise and rotate anticlockwise) which call the test function and move the piece as long as the test passes. The moveDown function also calls a lockPiece function if the test fails.
+
+```js
+function lockPiece() {
+    for (cell of activePiece.actualPosArr) {
+        cell.classList.add('locked')
+        renderPiece()
+        cell.classList.remove('active')
+    }
+    if (gameOverCheck()) {
+        gameOver()
+        return
+    }
+    lockSound.currentTime = 0
+    lockSound.play()
+    let completedRowsNum = completedLineCheck().length
+    let completeRows = completedLineCheck()
+    if (completedRowsNum > 0) {
+        increaseScore(completedRowsNum)
+        removeComplete(completeRows)
+    }
+    activePiece = nextPiece
+    nextPiece = addPiece(randomClass())
+    renderNextPiece()
+}
+```
 
 The lockPiece function is critical to the gameplay, and performs several important roles:
 
@@ -117,7 +190,65 @@ The lockPiece function is critical to the gameplay, and performs several importa
 
 With the moving, rotating, falling and locking, the next process to develop was the test for completed lines and the function to remove them. This was also a significant challenge - details below.
 
+```js
+function completedLineCheck() {
+    // Get rows to check
+    let rowPositions = activePiece.relativePosArr.map((relativePos) => relativePos % 10)
+    let rows = activePiece.relativePosArr.map((relativePos, idx) => relativePos - rowPositions[idx])
+    // Remove duplicates
+    let uniqueRows = [...new Set(rows)]
+    // Check whether each cell in each row is locked
+    let completeRows = []
+    for (num of uniqueRows) {
+        let lockedCount = 0
+        for (let i = 0; i < width; i++) {
+            if (cells[num + i].classList.contains('locked')) lockedCount++
+        }
+        if (lockedCount === 10) completeRows.push(num)
+    }
+    // Put them in numerical order
+    completeRows.sort((a, b) => a - b);
+    return completeRows
+}
+```
+
 The function to check for completed lines creates an array of the final positions of the active piece and uses the modulus of the width to calculate the first cell of each row occupied, removes duplicates and checks whether every cell in the row contains a class of ‘locked’. It then returns an array of completed rows in numerical order.
+
+```js
+function removeComplete(rows) {
+    for (rowNum of rows) {
+        // Remove piece and locked classes from row
+        for (let i = 0; i < width; i++) {
+            cells[rowNum + i].className = ''
+        }
+        // Find rows with locked cells above the row
+        let currentRow = rowNum - width
+        let lockedRows = []
+        while (currentRow >= 0) {
+            for (let i = 0; i < width; i++) {
+                if (cells[currentRow + i].classList.contains('locked')) {
+                    lockedRows.push(currentRow)
+                    break
+                }
+            }
+            currentRow -= width
+        }
+        
+        // Remove locked and piece classes from each cell in the row, and add them to the cell below
+        for (rowNum of lockedRows) {
+            for (let i = 0; i < width; i++) {
+                let classList = [...cells[rowNum + i].classList]
+                // Remove classes from current element
+                cells[rowNum + i].className = ''
+                // Remove classes from target element
+                cells[rowNum + i + width].className = ''
+                // Add classes to target element
+                classList.forEach((element) => cells[rowNum + i + width].classList.add(element))  
+            }
+        }
+    }
+}
+```
 
 The removeComplete rows function then takes this array and, for each row, removes all classes (rendering the cells ‘empty’). It then, using a combination of a while loop and a for loop, checks each row above for ‘locked’ cells, storing each row that contains locked cells in another array. Finally, for each row in the array, it stores all classes for each cell in a variable, removes all classes from the cell and the cell below it in the grid, then adds the classes stored in the variable to the cell below.
 
@@ -147,6 +278,32 @@ To implement this, I created a showMessage function, which adds children to the 
 
 1. Messages which related to the game state (eg. ‘Paused’) needed to be persistent, and only needed to be displayed one at a time.
 2. Alerts to in-game events needed to be displayed for a short time, and more than one may need to be displayed at once (for example if a completed line led to a level up).
+
+```js
+// ? Show message - persistent(stays on screen until removed) or alert(stays on screen for set period)
+function showMessage(text, type) {
+    // Remove current persistent message if there is one
+    let currentMessage = messagingEl.querySelector('.persistent')
+    if (currentMessage) messagingEl.removeChild(currentMessage)
+    
+    // Create message
+    const message = document.createElement('div')
+    message.innerHTML = text
+    message.classList.add(type, 'message')
+
+    // Styling for specific messages
+    if (text === "SINGLE") message.classList.add('single')
+    if (text === "DOUBLE") message.classList.add('double')
+    if (text === "TRIPLE") message.classList.add('triple')
+    if (text === "TETRIS!") message.classList.add('tetris')
+
+    // Add message to messaging area
+    messagingEl.appendChild(message)
+
+    // If message is an alert, set time out
+    if (type === 'alert') setTimeout(() => messagingEl.removeChild(message), 3000)
+}
+```
 
 The showMessage function takes 2 parameters, the first is the HTML of the message text and the second states whether the message is ‘persistent’ or an ‘alert’. The function first clears any persistent messages, then appends the new message - with a timeout of 3 seconds if the message is an ‘alert’. I subsequently added some controls to add classes for specific messages so that they could be styled differently.
 
