@@ -13,6 +13,11 @@ const menuIconEl = document.getElementById('menu-icon')
 const audioOnEl = document.getElementById('audio-on')
 const audioOffEl = document.getElementById('audio-off')
 
+// ? Mobile Controls
+const leftButton = document.querySelector('.left')
+const rightButton = document.querySelector('.right')
+const centerButton = document.querySelector('.center')
+
 // ? Sounds
 const moveSound = document.getElementById('move')
 const bumpSound = document.getElementById('bump')
@@ -777,7 +782,7 @@ function renderGhost() {
 
 function removeGhost() {
     let ghostCells = ghostPosition().map((pos) => cells[pos])
-    for (cell of ghostCells) {
+    for (let cell of ghostCells) {
         cell.classList.remove(activePiece.cssClass, 'ghost')
     }
 }
@@ -786,14 +791,14 @@ function removeGhost() {
 function renderNextPiece() {
     // Hide all grids & remove classes
     for (arr of npgArr) {
-        for (cell of arr) {
+        for (let cell of arr) {
             cell.style.display = 'none'
             cell.className = ''
         }
     }
     // Show grid that correlates with the next piece
     let grid = nextPiece.nextPieceGrid
-    for (cell of grid) {
+    for (let cell of grid) {
         cell.style.display = 'block'
     }
     // Resize the grid
@@ -873,6 +878,43 @@ function controls(event) {
     }
 }
 
+// ! Mobile Controls
+function mobileControls(event) {
+    event.preventDefault()
+    const direction = event.target
+    
+    const up = 38
+    const down = 40
+    const left = leftButton
+    const right = rightButton
+    // const space = centerButton
+    const z = 90
+    const x = centerButton
+    const p = 80
+
+    if (gameStatus === 'active') {
+        // Remove piece from current position, before moving to new position
+        removePiece()
+
+        if (direction === down) moveDown()
+        if (direction === left) moveLeft()
+        if (direction === right) moveRight()
+        if (direction === x || direction === up) rotateClockwise()
+        if (direction === z) rotateAnticlockwise()
+        if (direction === space) dropPiece()
+        if (direction === p) pauseGame()
+
+        // Render piece in new position
+        renderPiece()
+    } 
+    if (gameStatus === 'inactive') {
+        if (direction === x) gameStart()
+    }
+    if (gameStatus === 'paused') {
+        if (key === space) resumeGame()
+    }
+}
+
 function audioOn() {
     moveSound.muted = false
     bumpSound.muted = false
@@ -903,6 +945,22 @@ menuIconEl.addEventListener('click', overlayOn)
 overlayClose.addEventListener('click', overlayOff)
 audioOnEl.addEventListener('click', audioOn)
 audioOffEl.addEventListener('click', audioOff)
+window.addEventListener('load', setFullHeight)
+window.addEventListener('resize', setFullHeight)
+leftButton.addEventListener('touchstart', mobileControls)
+rightButton.addEventListener('touchstart', mobileControls)
+centerButton.addEventListener('touchstart', mobileControls)
+
+// ! Mobile
+function setFullHeight() {
+    const fullHeightElement = document.querySelector('.full-height')
+    const windowHeight = window.innerHeight
+    fullHeightElement.style.height = windowHeight + 'px'
+}
+
+function isTouchScreen() {
+    return 'ontouchstart' in window
+}
 
 // ! Page load
 init()
