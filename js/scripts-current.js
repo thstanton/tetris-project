@@ -561,7 +561,7 @@ function completedLineCheck() {
     let uniqueRows = [...new Set(rows)]
     // Check whether each cell in each row is locked
     let completeRows = []
-    for (num of uniqueRows) {
+    for (let num of uniqueRows) {
         let lockedCount = 0
         for (let i = 0; i < width; i++) {
             if (cells[num + i].classList.contains('locked')) lockedCount++
@@ -575,7 +575,7 @@ function completedLineCheck() {
 
 // ? Remove completed lines and shift remaining locked pieces down
 function removeComplete(rows) {
-    for (rowNum of rows) {
+    for (let rowNum of rows) {
         // Remove piece and locked classes from row
         for (let i = 0; i < width; i++) {
             cells[rowNum + i].className = ''
@@ -594,7 +594,7 @@ function removeComplete(rows) {
         }
         
         // Remove locked and piece classes from each cell in the row, and add them to the cell below
-        for (rowNum of lockedRows) {
+        for (let rowNum of lockedRows) {
             for (let i = 0; i < width; i++) {
                 let classList = [...cells[rowNum + i].classList]
                 // Remove classes from current element
@@ -752,7 +752,7 @@ function renderPiece() {
     // Target cells with indices that match relativePosArr
     activePiece.actualPosArr = activePiece.relativePosArr.map((relativePos) => cells[relativePos])
     // Add the relevant CSS class to each cell
-    for (element of activePiece.actualPosArr) {
+    for (let element of activePiece.actualPosArr) {
         element.classList.add(activePiece.cssClass, 'active')
     }
     renderGhost()
@@ -777,7 +777,7 @@ function renderGhost() {
 
 function removeGhost() {
     let ghostCells = ghostPosition().map((pos) => cells[pos])
-    for (cell of ghostCells) {
+    for (let cell of ghostCells) {
         cell.classList.remove(activePiece.cssClass, 'ghost')
     }
 }
@@ -785,15 +785,15 @@ function removeGhost() {
 // ? Render next piece
 function renderNextPiece() {
     // Hide all grids & remove classes
-    for (arr of npgArr) {
-        for (cell of arr) {
+    for (let arr of npgArr) {
+        for (let cell of arr) {
             cell.style.display = 'none'
             cell.className = ''
         }
     }
     // Show grid that correlates with the next piece
     let grid = nextPiece.nextPieceGrid
-    for (cell of grid) {
+    for (let cell of grid) {
         cell.style.display = 'block'
     }
     // Resize the grid
@@ -813,7 +813,7 @@ function renderNextPiece() {
     // Color the cells of the next piece
     let positions = nextPiece.nextPiecePos
     let colorCells = positions.map((pos) => grid[pos])
-    for (cell of colorCells) {
+    for (let cell of colorCells) {
         cell.classList.add(nextPiece.cssClass)
     }
 }
